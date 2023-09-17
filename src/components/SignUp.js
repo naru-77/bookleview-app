@@ -8,6 +8,7 @@ function SignUp() {
     name: "",
     password: "",
     email: "",
+    userIconUrl: null,
   });
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -29,54 +30,71 @@ function SignUp() {
       setError("全てのフィールドは必須です。");
       return;
     }
-    const userData = {
-      name: formData.name,
-      password: formData.password,
-      email: formData.email,
-    };
 
     try {
-      const response = await axios.post(`${API_BASE_URL}/users`, {
-        ...userData,
-        userIconUrl: formData.userIconUrl, // アイコンのURLを追加
+      //  ユーザー情報を登録
+      const signUpResponse = await axios.post(`${API_BASE_URL}/users`, {
+        name: formData.name,
+        password: formData.password,
+        email: formData.email,
       });
-      console.log("SignUp Response:", response.status, response.data);
+
+      // トークンをlocalStorageに保存
+      const token = signUpResponse.data.token;
+      localStorage.setItem("token", token);
+
+      // アイコンをアップロード（存在する場合）
+      if (formData.userIconUrl) {
+        await handleImageUpload(token);
+      }
+
       navigate("/login"); // 登録成功後、ログイン画面にリダイレクト
     } catch (error) {
-      console.error("データのアップロード中にエラーが発生しました:", error);
-      setError("サインアップ中にエラーが発生しました。再度お試しください。");
+      if (error.response && error.response.data.ErrorCode) {
+        setError(error.response.data.ErrorMessageJP);
+      } else {
+        setError("サインアップ中にエラーが発生しました。再度お試しください。");
+      }
     }
   };
 
-  const handleImageUpload = async (e) => {
+  const handleImageUpload = async (token) => {
+    if (!formData.userIconUrl) return;
+
+    const data = new FormData();
+    data.append("icon", formData.userIconUrl);
+
+    try {
+      const response = await axios.post(`${API_BASE_URL}/uploads`, data, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      console.log(response.data);
+      setFormData({ ...formData, userIconUrl: response.data.iconUrl });
+    } catch (error) {
+      setError(
+        "アイコンのアップロード中にエラーが発生しました。再度お試しください。"
+      );
+    }
+  };
+
+  const handleImageSelection = (e) => {
     const file = e.target.files[0];
+    // ファイルのサイズと拡張子をチェック
+    const validFileTypes = ["image/jpeg", "image/png"];
+    if (file.size > 1 * 1024 * 1024 || !validFileTypes.includes(file.type)) {
+      setError(
+        "ファイルサイズは1MB以下で、フォーマットはjpgまたはpngである必要があります。"
+      );
+      return;
+    }
     new Compressor(file, {
       quality: 0.6,
-      async success(result) {
-        try {
-          const formData = new FormData();
-          formData.append("icon", result);
-
-          const response = await axios.post(
-            `${API_BASE_URL}/uploads`,
-            formData,
-            {
-              headers: {
-                "Content-Type": "multipart/form-data",
-                Authorization: `Bearer YOUR_JWT_TOKEN`,
-              },
-            }
-          );
-          setFormData({ ...formData, userIconUrl: response.data.iconUrl });
-        } catch (error) {
-          console.error(
-            "アイコンのアップロード中にエラーが発生しました:",
-            error
-          );
-          setError(
-            "アイコンのアップロード中にエラーが発生しました。再度お試しください。"
-          );
-        }
+      success(result) {
+        setFormData({ ...formData, userIconUrl: result });
       },
       error(err) {
         console.log(err.message);
@@ -118,7 +136,7 @@ function SignUp() {
         </div>
         <div>
           <label>ユーザーアイコン:</label>
-          <input type="file" name="userIcon" onChange={handleImageUpload} />
+          <input type="file" name="userIcon" onChange={handleImageSelection} />
         </div>
         <button type="submit">登録</button>
         <div>{error && <p>{error}</p>}</div>
