@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
+import { useUser } from "./UserProvider";
 
 function Login() {
+  const { setUsername } = useUser();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -18,6 +20,12 @@ function Login() {
     }));
   };
 
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      navigate("/reviews");
+    }
+  }, []);
+
   const API_BASE_URL =
     "https://ifrbzeaz2b.execute-api.ap-northeast-1.amazonaws.com";
 
@@ -31,7 +39,13 @@ function Login() {
     try {
       const response = await axios.post(`${API_BASE_URL}/signin`, formData);
       console.log("ログインのレスポンス:", response.status, response.data);
+      const userInfoResponse = await axios.get(`${API_BASE_URL}/users`, {
+        headers: {
+          Authorization: `Bearer ${response.data.token}`,
+        },
+      });
       localStorage.setItem("token", response.data.token);
+      setUsername(userInfoResponse.data.name);
       navigate("/reviews");
     } catch (error) {
       console.error("ログイン中のエラー:", error);

@@ -2,39 +2,22 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import SignUp from "./components/SignUp";
 import Login from "./components/Login";
 import BookReviews from "./components/BookReviews";
-import React, { useEffect, useContext, useState } from "react";
-import { useNavigate, Outlet } from "react-router-dom";
-import AuthContext from "./components/AuthContext";
-
-function NavigationHandler() {
-  const { isLoggedIn } = useContext(AuthContext);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (isLoggedIn) {
-      navigate("/reviews");
-    } else {
-      navigate("/login");
-    }
-  }, [isLoggedIn, navigate]);
-
-  return null; // 何もレンダリングしない
-}
+import UserProfile from "./components/UserProfile";
+import { UserProvider } from "./components/UserProvider";
+// import Header from "./components/Header";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
-
   return (
-    <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn }}>
-      <Router>
-        <NavigationHandler />
+    <Router>
+      <UserProvider>
         <Routes>
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/reviews" element={<BookReviews />} />
+          <Route path="/profile" element={<UserProfile />} />
         </Routes>
-      </Router>
-    </AuthContext.Provider>
+      </UserProvider>
+    </Router>
   );
 }
 

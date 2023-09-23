@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Compressor from "compressorjs";
 import { Link, useNavigate } from "react-router-dom";
@@ -20,6 +20,12 @@ function SignUp() {
       [name]: value,
     }));
   };
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      navigate("/reviews");
+    }
+  }, []);
 
   const API_BASE_URL =
     "https://ifrbzeaz2b.execute-api.ap-northeast-1.amazonaws.com";
@@ -43,12 +49,15 @@ function SignUp() {
       const token = signUpResponse.data.token;
       localStorage.setItem("token", token);
 
+      // ユーザー名をUserContextにセット
+      setUsername(formData.name);
+
       // アイコンをアップロード（存在する場合）
       if (formData.userIconUrl) {
         await handleImageUpload(token);
       }
 
-      navigate("/login"); // 登録成功後、ログイン画面にリダイレクト
+      navigate("/reviews"); // 登録成功後、ログイン画面にリダイレクト
     } catch (error) {
       if (error.response && error.response.data.ErrorCode) {
         setError(error.response.data.ErrorMessageJP);
