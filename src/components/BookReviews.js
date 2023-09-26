@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Container, Paper, Text, Divider, Notification } from "@mantine/core";
+import {
+  Card,
+  Container,
+  Paper,
+  Text,
+  Divider,
+  Notification,
+  Button,
+  Group,
+} from "@mantine/core";
 import Pagination from "./Pagination";
 import { Link, useNavigate } from "react-router-dom";
 import Header from "./Header";
@@ -64,28 +73,52 @@ function BookReviews() {
   return (
     <Container size={700} style={{ marginTop: 50, padding: 20 }}>
       <Header />
-      {/* <Text align="center" size="xl" style={{ marginBottom: 30 }}>
-        Book Reviews
-      </Text>
-      {username ? (
-        <>
-          <span>Welcome, {username}</span>
-          <Link to="/profile">プロフィール編集</Link>
-          <button onClick={handleLogout}>ログアウト</button>
-        </>
-      ) : (
-        <button>Login</button>
-      )} */}
+      <Button
+        component={Link}
+        to="/new"
+        style={{ marginBottom: "20px" }}
+        variant="light"
+        color="blue"
+        fullWidth
+        radius="md"
+      >
+        新しいレビューを投稿
+      </Button>
       {books.map((book, index) => (
-        <Paper padding="md" style={{ marginBottom: 20 }} key={book.id}>
-          <Text align="center" size="xl" color="red" weight={700}>
-            {book.title}
-          </Text>
-          <Text style={{ marginTop: 10 }} size="sm">
+        <Card
+          shadow="sm"
+          padding="lg"
+          radius="md"
+          withBorder
+          key={book.id}
+          style={{ marginBottom: 20 }}
+        >
+          <Group justify="space-between" mt="md" mb="xs" alignItems="center">
+            <Text
+              fw={500}
+              component={Link}
+              to={`/detail/${book.id}`}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              {book.title}
+            </Text>
+            {book.isMine && (
+              <Button
+                component={Link}
+                to={`/edit/${book.id}`}
+                variant="light"
+                color="blue"
+                radius="md"
+              >
+                Edit
+              </Button>
+            )}
+          </Group>
+          <Text size="sm" c="dimmed">
             {book.review}
           </Text>
           {index < books.length - 1 && <Divider style={{ margin: "20px 0" }} />}
-        </Paper>
+        </Card>
       ))}
       {error && <Notification color="red">{error}</Notification>}
       <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} />

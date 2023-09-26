@@ -4,7 +4,9 @@ import Login from "./components/Login";
 import BookReviews from "./components/BookReviews";
 import UserProfile from "./components/UserProfile";
 import { UserProvider } from "./components/UserProvider";
-// import Header from "./components/Header";
+import NewBookReview from "./components/NewBookReview";
+import BookDetail from "./components/BookDetail";
+import BookEdit from "./components/BookEdit";
 
 function App() {
   return (
@@ -15,6 +17,9 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/reviews" element={<BookReviews />} />
           <Route path="/profile" element={<UserProfile />} />
+          <Route path="/new" element={<NewBookReview />} />
+          <Route path="/detail/:id" element={<BookDetail />} />
+          <Route path="/edit/:id" element={<BookEdit />} />
         </Routes>
       </UserProvider>
     </Router>
