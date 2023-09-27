@@ -14,7 +14,7 @@ import { useUser } from "../components/UserProvider";
 function Header() {
   //   const username = localStorage.getItem("username");
   const navigate = useNavigate();
-  const { username, setUsername } = useUser();
+  const { username, setUsername, userIconUrl } = useUser();
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -50,6 +50,14 @@ function Header() {
           <Col span={4} style={{ textAlign: "right" }}>
             {username ? (
               <Flex align="center" style={{ gap: 10 }}>
+                {userIconUrl && (
+                  <img
+                    src={userIconUrl}
+                    alt="user icon"
+                    width={50}
+                    height={50}
+                  />
+                )}
                 <span>ユーザー名: {username}</span>
                 <Link component={Button} to="/profile" color="blue">
                   プロフィール編集

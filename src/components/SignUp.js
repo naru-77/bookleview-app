@@ -55,6 +55,7 @@ function SignUp() {
       // アイコンをアップロード（存在する場合）
       if (formData.userIconUrl) {
         await handleImageUpload(token);
+        setUserIconUrl(response.data.iconUrl);
       }
 
       navigate("/reviews"); // 登録成功後、ログイン画面にリダイレクト

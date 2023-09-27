@@ -50,7 +50,7 @@ function BookEdit() {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      navigate(`/detail/${id}`);
+      navigate(`/reviews`);
     } catch (error) {
       setError("書籍の更新中にエラーが発生しました。");
     }

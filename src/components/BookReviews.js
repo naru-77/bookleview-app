@@ -93,7 +93,7 @@ function BookReviews() {
           key={book.id}
           style={{ marginBottom: 20 }}
         >
-          <Group justify="space-between" mt="md" mb="xs" alignItems="center">
+          <Group justify="space-between" mt="md" mb="xs">
             <Text
               fw={500}
               component={Link}
