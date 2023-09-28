@@ -8,6 +8,7 @@ function Pagination({ currentPage, setCurrentPage }) {
         <Button
           onClick={() => setCurrentPage(currentPage - 1)}
           style={{ marginRight: 10 }}
+          variant="light"
         >
           前へ
         </Button>
@@ -16,6 +17,7 @@ function Pagination({ currentPage, setCurrentPage }) {
       <Button
         onClick={() => setCurrentPage(currentPage + 1)}
         style={{ marginLeft: 10 }}
+        variant="light"
       >
         次へ
       </Button>

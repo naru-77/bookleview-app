@@ -30,10 +30,10 @@ function Header() {
       padding="md"
       shadow="xs"
       style={{
-        backgroundColor: "#e0f2f1",
+        backgroundColor: "#f5f5f5",
         position: "fixed",
         width: "100%",
-        height: 60,
+        height: 90, // ヘッダーの高さを広げる
         top: 0,
         left: 0,
         zIndex: 1000,
@@ -41,36 +41,75 @@ function Header() {
     >
       <Container>
         <Grid>
-          <Col span={4}></Col> {/* 左側のスペースを確保 */}
-          <Col span={4}>
-            <Title order={4} align="center">
-              <Link to="/reviews">Book Reviews</Link>
-            </Title>
-          </Col>
-          <Col span={4} style={{ textAlign: "right" }}>
-            {username ? (
-              <Flex align="center" style={{ gap: 10 }}>
-                {userIconUrl && (
-                  <img
-                    src={userIconUrl}
-                    alt="user icon"
-                    width={50}
-                    height={50}
-                  />
-                )}
-                <span>ユーザー名: {username}</span>
-                <Link component={Button} to="/profile" color="blue">
-                  プロフィール編集
+          <Col span={4}></Col>
+          <Col span={8}>
+            <Flex
+              align="center"
+              style={{
+                height: "100%",
+                marginLeft: "100px",
+                marginTop: "5px",
+              }}
+            >
+              {" "}
+              {/* 中央配置のためのFlexを追加 */}
+              <Title order={4} align="center">
+                <Link
+                  to="/reviews"
+                  style={{
+                    textDecoration: "none",
+                    color: "#333",
+                  }}
+                  onMouseEnter={(e) =>
+                    (e.target.style.textDecoration = "underline")
+                  }
+                  onMouseLeave={(e) => (e.target.style.textDecoration = "none")}
+                >
+                  Book Reviews
                 </Link>
-                <Button onClick={handleLogout} color="green">
-                  ログアウト
-                </Button>
-              </Flex>
-            ) : (
-              <Link component={Button} to="/login" color="blue">
-                Login
-              </Link>
-            )}
+              </Title>
+            </Flex>
+          </Col>
+          <Col span={8}>
+            <div style={{ marginLeft: "190px" }}>
+              {username ? (
+                <Flex
+                  align="center"
+                  justify="space-between"
+                  style={{ gap: 10 }}
+                >
+                  {userIconUrl && (
+                    <img
+                      src={userIconUrl}
+                      alt="user icon"
+                      width={50}
+                      height={50}
+                    />
+                  )}
+                  <Button
+                    component={Link}
+                    to="/profile"
+                    variant="light"
+                    color="blue"
+                  >
+                    プロフィール編集
+                  </Button>
+                  <Button onClick={handleLogout} variant="light" color="red">
+                    ログアウト
+                  </Button>
+                  <span>ユーザー名: {username}</span>
+                </Flex>
+              ) : (
+                <Link
+                  component={Button}
+                  to="/login"
+                  variant="light"
+                  color="blue"
+                >
+                  Login
+                </Link>
+              )}
+            </div>
           </Col>
         </Grid>
       </Container>

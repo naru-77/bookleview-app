@@ -10,6 +10,8 @@ import {
   Group,
 } from "@mantine/core";
 import { useAPI } from "./APIContext";
+import "../style/Loader.css";
+import { Link } from "react-router-dom";
 
 function BookEdit() {
   const [book, setBook] = useState(null);
@@ -67,7 +69,12 @@ function BookEdit() {
     }
   };
 
-  if (loading) return <Loader />;
+  if (loading)
+    return (
+      <div className="loaderContainer">
+        <Loader />
+      </div>
+    );
 
   return (
     <Container>
@@ -114,6 +121,15 @@ function BookEdit() {
               radius="md"
             >
               Delete
+            </Button>
+            <Button
+              component={Link}
+              to="/reviews"
+              variant="light"
+              color="blue"
+              radius="md"
+            >
+              戻る
             </Button>
           </Group>
         </>

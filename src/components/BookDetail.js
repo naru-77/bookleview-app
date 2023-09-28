@@ -1,8 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Container, Paper, Loader, Notification } from "@mantine/core";
+import {
+  Container,
+  Card,
+  Loader,
+  Notification,
+  Text,
+  Button,
+} from "@mantine/core";
 import { useParams } from "react-router-dom";
 import { useAPI } from "./APIContext";
+import "../style/Loader.css";
+import { Link } from "react-router-dom";
 
 function BookDetail() {
   const [book, setBook] = useState(null);
@@ -55,21 +64,42 @@ function BookDetail() {
     sendLog();
   }, [id, token]);
 
-  if (loading) return <Loader />; // ローディング中はローダーを表示
+  if (loading)
+    return (
+      <div className="loaderContainer">
+        <Loader />
+      </div>
+    );
 
   return (
-    <Container>
-      <Paper padding="md" shadow="xs">
+    <Container className="containerCentered">
+      <Card
+        padding="md"
+        shadow="xs"
+        style={{ borderRadius: "15px", width: "80%", marginBottom: "20px" }}
+      >
         {error && <Notification color="red">{error}</Notification>}
         {book && (
           <>
-            <h2>{book.title}</h2>
-            <p>{book.detail}</p>
-            <p>{book.review}</p>
-            <p>Reviewed by: {book.reviewer}</p> {/* レビュアーの名前を表示 */}
+            <Text align="center" size="xl">
+              {book.title}
+            </Text>
+            <Text>{book.detail}</Text>
+            <Text>{book.review}</Text>
+            <Text>Reviewed by: {book.reviewer}</Text>
           </>
         )}
-      </Paper>
+      </Card>
+      <Button
+        component={Link}
+        to="/reviews"
+        style={{ marginBottom: "20px" }}
+        variant="light"
+        color="blue"
+        radius="md"
+      >
+        戻る
+      </Button>
     </Container>
   );
 }

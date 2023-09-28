@@ -76,7 +76,7 @@ function BookReviews() {
       <Button
         component={Link}
         to="/new"
-        style={{ marginBottom: "20px" }}
+        style={{ marginBottom: "20px", marginTop: "30px" }}
         variant="light"
         color="blue"
         fullWidth
@@ -91,7 +91,12 @@ function BookReviews() {
           radius="md"
           withBorder
           key={book.id}
-          style={{ marginBottom: 20 }}
+          style={{
+            marginBottom: 20,
+            borderColor: book.isMine ? "#ffcccc" : undefined, // 自分の投稿の場合、薄い赤で枠を囲む
+            borderWidth: book.isMine ? "4px" : undefined, // 枠の太さを調整
+            position: "relative",
+          }}
         >
           <Group justify="space-between" mt="md" mb="xs">
             <Text
@@ -107,8 +112,14 @@ function BookReviews() {
                 component={Link}
                 to={`/edit/${book.id}`}
                 variant="light"
-                color="blue"
                 radius="md"
+                style={{
+                  backgroundColor: "#ffcccc",
+                  color: "#ff0000",
+                  position: "absolute",
+                  bottom: "0px",
+                  right: "0px",
+                }}
               >
                 Edit
               </Button>

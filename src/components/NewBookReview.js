@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Container, Paper, Input, Button, Notification } from "@mantine/core";
+import { Container, Group, Input, Button, Notification } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import { useAPI } from "./APIContext";
+
+import { Link } from "react-router-dom";
 
 function NewBookReview() {
   const [formData, setFormData] = useState({
@@ -82,9 +84,20 @@ function NewBookReview() {
             placeholder="書籍のレビューを入力してください"
           />
         </div>
-        <Button type="submit" variant="light" color="blue" radius="md">
-          投稿
-        </Button>
+        <Group>
+          <Button type="submit" variant="light" color="blue" radius="md">
+            投稿
+          </Button>
+          <Button
+            component={Link}
+            to="/reviews"
+            variant="light"
+            color="gray"
+            radius="md"
+          >
+            戻る
+          </Button>
+        </Group>
       </form>
       {error && (
         <Notification color="red" style={{ marginTop: "15px" }}>
