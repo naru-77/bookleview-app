@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Compressor from "compressorjs";
 import { Link, useNavigate } from "react-router-dom";
+import { useAPI } from "./APIContext";
 
 function SignUp() {
   const [formData, setFormData] = useState({
@@ -27,8 +28,7 @@ function SignUp() {
     }
   }, []);
 
-  const API_BASE_URL =
-    "https://ifrbzeaz2b.execute-api.ap-northeast-1.amazonaws.com";
+  const API_BASE_URL = useAPI();
 
   const handleSubmit = async (e) => {
     e.preventDefault();

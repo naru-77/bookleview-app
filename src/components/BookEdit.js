@@ -9,6 +9,7 @@ import {
   Loader,
   Group,
 } from "@mantine/core";
+import { useAPI } from "./APIContext";
 
 function BookEdit() {
   const [book, setBook] = useState(null);
@@ -16,8 +17,7 @@ function BookEdit() {
   const [error, setError] = useState(null);
   const { id } = useParams();
   const navigate = useNavigate();
-  const API_BASE_URL =
-    "https://ifrbzeaz2b.execute-api.ap-northeast-1.amazonaws.com";
+  const API_BASE_URL = useAPI();
   const token = localStorage.getItem("token");
 
   useEffect(() => {

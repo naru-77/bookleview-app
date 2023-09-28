@@ -10,14 +10,14 @@ import {
 } from "@mantine/core";
 import { useUser } from "../components/UserProvider";
 import { useNavigate } from "react-router-dom";
+import { useAPI } from "./APIContext";
 
 function UserProfile() {
   const { username, setUsername } = useUser();
   const [newUsername, setNewUsername] = useState(username); // 新しいユーザー名を保持するためのステート
 
   const [error, setError] = useState(null);
-  const API_BASE_URL =
-    "https://ifrbzeaz2b.execute-api.ap-northeast-1.amazonaws.com";
+  const API_BASE_URL = useAPI();
   const token = localStorage.getItem("token");
   const navigate = useNavigate();
 

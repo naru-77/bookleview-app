@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Container, Paper, Loader, Notification } from "@mantine/core";
 import { useParams } from "react-router-dom";
+import { useAPI } from "./APIContext";
 
 function BookDetail() {
   const [book, setBook] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { id } = useParams();
-  const API_BASE_URL =
-    "https://ifrbzeaz2b.execute-api.ap-northeast-1.amazonaws.com";
+  const API_BASE_URL = useAPI();
   const token = localStorage.getItem("token"); // ローカルストレージからトークンを取得
 
   useEffect(() => {

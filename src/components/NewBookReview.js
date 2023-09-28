@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Container, Paper, Input, Button, Notification } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
+import { useAPI } from "./APIContext";
 
 function NewBookReview() {
   const [formData, setFormData] = useState({
@@ -12,8 +13,7 @@ function NewBookReview() {
   });
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const API_BASE_URL =
-    "https://ifrbzeaz2b.execute-api.ap-northeast-1.amazonaws.com";
+  const API_BASE_URL = useAPI();
   const token = localStorage.getItem("token");
 
   const handleChange = (e) => {

@@ -13,14 +13,14 @@ import {
 import Pagination from "./Pagination";
 import { Link, useNavigate } from "react-router-dom";
 import Header from "./Header";
+import { useAPI } from "./APIContext";
 
 function BookReviews() {
   const [books, setBooks] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [error, setError] = useState(null);
   const [username, setUsername] = useState(null);
-  const API_BASE_URL =
-    "https://ifrbzeaz2b.execute-api.ap-northeast-1.amazonaws.com";
+  const API_BASE_URL = useAPI();
   const token = localStorage.getItem("token");
 
   useEffect(() => {

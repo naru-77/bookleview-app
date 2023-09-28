@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "./UserProvider";
+import { useAPI } from "./APIContext";
 
 function Login() {
   const { setUsername } = useUser();
@@ -26,8 +27,7 @@ function Login() {
     }
   }, []);
 
-  const API_BASE_URL =
-    "https://ifrbzeaz2b.execute-api.ap-northeast-1.amazonaws.com";
+  const API_BASE_URL = useAPI();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
