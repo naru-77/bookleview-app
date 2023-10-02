@@ -52,7 +52,7 @@ function UserProfile() {
       setUsername(newUsername);
       navigate("/reviews");
     } catch (error) {
-      setError("ユーザー情報の更新中にエラーが発生しました。");
+      setError("ユーザー情報の更新中にエラーが発生しました!");
     }
   };
 
